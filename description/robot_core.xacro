@@ -3,6 +3,9 @@
 
     <xacro:include filename="inertial_macros.xacro"/>
 
+    <!-- friction constant -->
+    <xacro:property name="friction_constant" value="0.2"/>
+
     <material name="white">
         <color rgba="1 1 1 1"/>
     </material>
@@ -58,15 +61,16 @@
         <material>Gazebo/White</material>
     </gazebo>
 
-<!-- LEFT DRIVE WHEEL LINK -->
-    <joint name="left_wheel_joint" type="continuous">
+<!-- BACK LEFT WHEEL LINK -->
+    <joint name="lb_wheel_joint" type="continuous">
         <parent link="base_link"/>
-        <child link="left_wheel"/>
+        <child link="lb_wheel"/>
         <origin xyz="0 0.35 0" rpy="-${pi/2} 0 0"/>
         <axis xyz="0 0 1"/>
+        <limit effort="1000" velocity="1000"/>
     </joint>
 
-    <link name="left_wheel">
+    <link name="lb_wheel">
         <visual>
             <geometry>
                 <cylinder radius="0.25" length="0.1"/>
@@ -83,19 +87,22 @@
         </xacro:inertial_cylinder>
     </link>
 
-    <gazebo reference="left_wheel">
+    <gazebo reference="lb_wheel">
+        <!-- <mu1>${friction_constant}</mu1>
+        <mu2>${friction_constant}</mu2> -->
         <material>Gazebo/Orange</material>
     </gazebo>
 
-<!-- RIGHT DRIVE WHEEL LINK -->
-<joint name="right_wheel_joint" type="continuous">
+<!-- BACK RIGHT WHEEL LINK -->
+<joint name="rb_wheel_joint" type="continuous">
     <parent link="base_link"/>
-    <child link="right_wheel"/>
+    <child link="rb_wheel"/>
     <origin xyz="0 -0.35 0" rpy="${pi/2} 0 0"/>
     <axis xyz="0 0 -1"/>
+    <limit effort="1000" velocity="1000"/>
 </joint>
 
-<link name="right_wheel">
+<link name="rb_wheel">
     <visual>
         <geometry>
             <cylinder radius="0.25" length="0.1"/>
@@ -112,18 +119,22 @@
     </xacro:inertial_cylinder>
 </link>
 
-<gazebo reference="right_wheel">
+<gazebo reference="rb_wheel">
+    <!-- <mu1>${friction_constant}</mu1>
+    <mu2>${friction_constant}</mu2> -->
     <material>Gazebo/Orange</material>
 </gazebo>
 
-<!-- LEFT DUMMY WHEEL LINK -->
-<joint name="left_dummywheel_joint" type="fixed">
-    <parent link="chassis"/>
-    <child link="left_dummywheel"/>
-    <origin xyz="0.95 0.35 0" rpy="-${pi/2} 0 0"/>
+<!-- FRONT LEFT WHEEL LINK -->
+<joint name="lf_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="lf_wheel"/>
+    <origin xyz="0.7 0.35 0" rpy="-${pi/2} 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000" velocity="1000"/>
 </joint>
 
-<link name="left_dummywheel">
+<link name="lf_wheel">
     <visual>
         <geometry>
             <cylinder radius="0.25" length="0.1"/>
@@ -140,20 +151,22 @@
     </xacro:inertial_cylinder>
 </link>
 
-<gazebo reference="left_dummywheel">
+<gazebo reference="lf_wheel">
+    <!-- <mu1>${friction_constant}</mu1>
+    <mu2>${friction_constant}</mu2> -->
     <material>Gazebo/Orange</material>
-    <mu1 value="0.0001"/>
-    <mu2 value="0.0001"/>
 </gazebo>
 
-<!-- RIGHT DUMMY WHEEL LINK -->
-<joint name="right_dummywheel_joint" type="fixed">
-    <parent link="chassis"/>
-    <child link="right_dummywheel"/>
-    <origin xyz="0.95 -0.35 0" rpy="${pi/2} 0 0"/>
+<!-- FRONT RIGHT WHEEL LINK -->
+<joint name="rf_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rf_wheel"/>
+    <origin xyz="0.7 -0.35 0" rpy="${pi/2} 0 0"/>
+    <axis xyz="0 0 -1"/>
+    <limit effort="1000" velocity="1000"/>
 </joint>
 
-<link name="right_dummywheel">
+<link name="rf_wheel">
     <visual>
         <geometry>
             <cylinder radius="0.25" length="0.1"/>
@@ -170,10 +183,10 @@
     </xacro:inertial_cylinder>
 </link>
 
-<gazebo reference="right_dummywheel">
+<gazebo reference="rf_wheel">
+    <!-- <mu1>${friction_constant}</mu1>
+    <mu2>${friction_constant}</mu2> -->
     <material>Gazebo/Orange</material>
-    <mu1 value="0.0001"/>
-    <mu2 value="0.0001"/>
 </gazebo>
 
 </robot>
